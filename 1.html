@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <title>我的个人博客 | Work & Life</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="记录工作技术复盘与生活趣事的个人博客。" />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg-color: #f5f5f7;
+      --bg-color-alt: #f0f2f5;
+      --bg-elevated: rgba(255, 255, 255, 0.9);
+      --text-primary: #111827;
+      --text-muted: #6b7280;
+      --text-soft: #9ca3af;
+      --accent: #007aff;
+      --accent-soft: rgba(0, 122, 255, 0.12);
+      --border-subtle: rgba(15, 23, 42, 0.06);
+      --glass-bg: rgba(255, 255, 255, 0.72);
+      --glass-border: rgba(255, 255, 255, 0.9);
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.12);
+      --radius-large: 24px;
+      --radius-medium: 18px;
+      --radius-pill: 999px;
+      --transition-fast: 0.18s cubic-bezier(0.4, 0.0, 0.2, 1);
+      --transition-med: 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --bg-color: #050816;
+      --bg-color-alt: #020617;
+      --bg-elevated: rgba(15, 23, 42, 0.96);
+      --text-primary: #e5e7eb;
+      --text-muted: #9ca3af;
+      --text-soft: #6b7280;
+      --accent: #0a84ff;
+      --accent-soft: rgba(10, 132, 255, 0.18);
+      --border-subtle: rgba(148, 163, 184, 0.3);
+      --glass-bg: rgba(15, 23, 42, 0.8);
+      --glass-border: rgba(148, 163, 184, 0.45);
+      --shadow-soft: 0 26px 70px rgba(0, 0, 0, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, -system-ui,
+        "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(45, 212, 191, 0.16), transparent 55%),
+        var(--bg-color);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      padding-bottom: env(safe-area-inset-bottom);
+      transition:
+        background 0.4s ease,
+        color 0.25s ease;
+    }
+
+    html[data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.38), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(14, 116, 144, 0.32), transparent 55%),
+        radial-gradient(circle at 50% 120%, rgba(15, 23, 42, 0.9), #020617);
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      border: none;
+      padding: 0;
+      margin: 0;
+      background: none;
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    [tabindex]:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 999px;
+    }
+
+    ::selection {
+      background: rgba(56, 189, 248, 0.3);
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .glass {
+      background-color: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+    }
+
+    /* Header */
+
+    .site-header-shell {
+      position: fixed;
+      top: calc(12px + env(safe-area-inset-top, 0px));
+      left: 0;
+      right: 0;
+      z-index: 40;
+      pointer-events: none;
+    }
+
+    .site-header {
+      pointer-events: auto;
+      border-radius: 999px;
+      padding: 10px 16px 10px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .site-header-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .site-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .site-logo-mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 0 0, #60a5fa, #a855f7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f9fafb;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.45),
+        inset 0 0 0 1px rgba(248, 250, 252, 0.25);
+    }
+
+    .site-title {
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      font-size: 15px;
+    }
+
+    .site-title-sub {
+      display: none;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .site-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 30% 0%, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      box-shadow:
+        0 10px 25px rgba(15, 23, 42, 0.18),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.75);
+      color: #111827;
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        color var(--transition-fast);
+    }
+
+    html[data-theme="dark"] .icon-button {
+      background: radial-gradient(circle at 30% 0%, rgba(30, 64, 175, 0.85), rgba(15, 23, 42, 0.9));
+      border-color: rgba(148, 163, 184, 0.6);
+      color: #e5e7eb;
+    }
+
+    .icon-button svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .icon-button:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.25),
+        0 0 0 1px rgba(129, 140, 248, 0.25);
+    }
+
+    .icon-button:active {
+      transform: translateY(0) scale(0.98);
+      box-shadow:
+        0 6px 14px rgba(15, 23, 42, 0.45),
+        inset 0 0 0 1px rgba(15, 23, 42, 0.4);
+    }
+
+    /* Theme toggle */
+
+    .theme-toggle {
+      position: relative;
+      width: 52px;
+      height: 28px;
+      border-radius: 999px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(148, 163, 184, 0.1), rgba(209, 213, 219, 0.7));
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      box-shadow:
+        0 10px 25px rgba(15, 23, 42, 0.18),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.85);
+      transition:
+        background var(--transition-med),
+        border-color var(--transition-med),
+        box-shadow var(--transition-med),
+        transform var(--transition-fast);
+    }
+
+    html[data-theme="dark"] .theme-toggle {
+      background: radial-gradient(circle at 0 0, rgba(56, 189, 248, 0.25), rgba(15, 23, 42, 0.95));
+      border-color: rgba(148, 163, 184, 0.9);
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.7),
+        inset 0 0 0 0.5px rgba(15, 23, 42, 0.7);
+    }
+
+    .theme-toggle-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      display: flex;
+      align-items: center;
+      padding: 0 5px;
+    }
+
+    .theme-toggle-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0%, #ffffff, #e5e7eb);
+      box-shadow:
+        0 6px 18px rgba(15, 23, 42, 0.45),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.9);
+      transform: translateX(0);
+      transition:
+        transform var(--transition-med),
+        background var(--transition-med),
+        box-shadow var(--transition-med);
+    }
+
+    html[data-theme="dark"] .theme-toggle-thumb {
+      transform: translateX(22px);
+      background: radial-gradient(circle at 30% 0%, #e5e7eb, #9ca3af);
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.9),
+        inset 0 0 0 0.5px rgba(15, 23, 42, 0.9);
+    }
+
+    .theme-toggle-icon {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: var(--text-soft);
+      transition: opacity var(--transition-med), transform var(--transition-med), color var(--transition-med);
+      opacity: 0.5;
+    }
+
+    .theme-toggle-icon--sun::before,
+    .theme-toggle-icon--moon::before {
+      content: "";
+      display: block;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+    }
+
+    .theme-toggle-icon--sun::before {
+      background: radial-gradient(circle at 30% 10%, #ffffff, #facc15);
+    }
+
+    .theme-toggle-icon--moon::before {
+      background:
+        radial-gradient(circle at 30% 0%, #e5e7eb, #94a3b8);
+      box-shadow:
+        inset -2px -2px 3px rgba(15, 23, 42, 0.7),
+        0 0 0 1px rgba(15, 23, 42, 0.3);
+    }
+
+    html[data-theme="light"] .theme-toggle-icon--sun {
+      opacity: 1;
+      color: #f59e0b;
+      transform: translateX(1px);
+    }
+
+    html[data-theme="light"] .theme-toggle-icon--moon {
+      opacity: 0.35;
+      transform: translateX(-1px);
+    }
+
+    html[data-theme="dark"] .theme-toggle-icon--sun {
+      opacity: 0.2;
+      transform: translateX(0);
+    }
+
+    html[data-theme="dark"] .theme-toggle-icon--moon {
+      opacity: 1;
+      color: #bfdbfe;
+      transform: translateX(-1px);
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.97);
+    }
+
+    /* Hero */
+
+    main {
+      padding-top: 120px;
+    }
+
+    @media (max-width: 600px) {
+      main {
+        padding-top: 110px;
+      }
+    }
+
+    .hero {
+      padding: 36px 0 56px;
+    }
+
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 44px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+        gap: 32px;
+      }
+    }
+
+    .hero-text {
+      flex: 1;
+      max-width: 640px;
+      animation: fadeInUp 0.7s var(--transition-med) both;
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 4vw, 40px);
+      letter-spacing: -0.03em;
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 0 18px;
+    }
+
+    .hero-slogan {
+      font-size: 14px;
+      color: var(--text-soft);
+      font-style: italic;
+      padding-left: 10px;
+      border-left: 2px solid rgba(148, 163, 184, 0.6);
+      margin: 0 0 18px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: linear-gradient(
+        135deg,
+        rgba(148, 163, 184, 0.08),
+        rgba(209, 213, 219, 0.4)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    html[data-theme="dark"] .chip {
+      background: linear-gradient(
+        135deg,
+        rgba(30, 64, 175, 0.7),
+        rgba(15, 23, 42, 0.9)
+      );
+      border-color: rgba(129, 140, 248, 0.7);
+      color: #e5e7eb;
+    }
+
+    .hero-avatar-wrapper {
+      flex-shrink: 0;
+      animation: fadeInUp 0.7s var(--transition-med) both;
+      animation-delay: 0.05s;
+    }
+
+    .hero-avatar-orbit {
+      width: 118px;
+      height: 118px;
+      border-radius: 999px;
+      padding: 3px;
+      background:
+        conic-gradient(from 160deg, rgba(59, 130, 246, 0.2), rgba(236, 72, 153, 0.4), rgba(56, 189, 248, 0.3), rgba(59, 130, 246, 0.2));
+      box-shadow:
+        0 24px 60px rgba(15, 23, 42, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+      position: relative;
+    }
+
+    .hero-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      overflow: hidden;
+      background: radial-gradient(circle at 30% 0, #ffffff, #d1d5db);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    html[data-theme="dark"] .hero-avatar {
+      background: radial-gradient(circle at 20% 0, #1e293b, #020617);
+    }
+
+    .hero-avatar-initials {
+      font-weight: 650;
+      font-size: 32px;
+      letter-spacing: 0.02em;
+      color: #0f172a;
+    }
+
+    html[data-theme="dark"] .hero-avatar-initials {
+      color: #e5e7eb;
+    }
+
+    .hero-avatar-orbit::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.5), transparent 50%);
+      opacity: 0.35;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    /* Posts section */
+
+    .posts-section {
+      padding: 8px 0 72px;
+    }
+
+    .posts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .posts-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .posts-title {
+      margin: 0 0 4px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+    }
+
+    .posts-subtitle {
+      margin: 0;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Tabs */
+
+    .filters {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px;
+      border-radius: 999px;
+      background: linear-gradient(
+        135deg,
+        rgba(148, 163, 184, 0.1),
+        rgba(209, 213, 219, 0.7)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.18);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      gap: 2px;
+    }
+
+    html[data-theme="dark"] .filters {
+      background: linear-gradient(
+        135deg,
+        rgba(15, 23, 42, 0.95),
+        rgba(30, 64, 175, 0.9)
+      );
+      border-color: rgba(129, 140, 248, 0.8);
+    }
+
+    .filter-tab {
+      position: relative;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 13px;
+      color: var(--text-muted);
+      background: transparent;
+      transition:
+        color var(--transition-med),
+        transform var(--transition-fast);
+    }
+
+    .filter-tab::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      background: rgba(255, 255, 255, 0);
+      box-shadow: none;
+      opacity: 0;
+      transition:
+        opacity var(--transition-med),
+        background var(--transition-med),
+        box-shadow var(--transition-med),
+        transform var(--transition-med);
+      z-index: -1;
+    }
+
+    .filter-tab.is-active {
+      color: #0f172a;
+      font-weight: 500;
+      transform: translateY(-0.5px);
+    }
+
+    .filter-tab.is-active::before {
+      opacity: 1;
+      background: radial-gradient(circle at 0 0, #ffffff, #e0f2fe);
+      box-shadow:
+        0 12px 28px rgba(37, 99, 235, 0.35),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.9);
+    }
+
+    html[data-theme="dark"] .filter-tab {
+      color: #cbd5f5;
+    }
+
+    html[data-theme="dark"] .filter-tab.is-active {
+      color: #020617;
+    }
+
+    .filter-tab:hover:not(.is-active) {
+      transform: translateY(-0.5px);
+    }
+
+    /* Post grid & cards */
+
+    .post-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 1024px) {
+      .post-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .post-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .post-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-radius: var(--radius-large);
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.98),
+        rgba(243, 244, 246, 0.98)
+      );
+      border: 1px solid var(--border-subtle);
+      box-shadow:
+        0 20px 40px rgba(15, 23, 42, 0.07),
+        0 0 0 0.5px rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      transition:
+        transform var(--transition-med),
+        box-shadow var(--transition-med),
+        border-color var(--transition-med),
+        background var(--transition-med),
+        filter var(--transition-med);
+      outline: none;
+    }
+
+    html[data-theme="dark"] .post-card {
+      background: radial-gradient(circle at 0 0, rgba(30, 64, 175, 0.9), rgba(15, 23, 42, 1));
+      border-color: rgba(30, 64, 175, 0.9);
+      box-shadow:
+        0 22px 60px rgba(0, 0, 0, 0.8),
+        0 0 0 0.5px rgba(30, 64, 175, 0.9);
+    }
+
+    .post-card:hover {
+      transform: translateY(-6px) translateZ(0) scale(1.01);
+      box-shadow:
+        0 26px 60px rgba(15, 23, 42, 0.22),
+        0 0 0 1px rgba(129, 140, 248, 0.3);
+      border-color: rgba(129, 140, 248, 0.7);
+      filter: saturate(1.02);
+    }
+
+    .post-card:active {
+      transform: translateY(-1px) scale(0.99);
+      box-shadow:
+        0 16px 32px rgba(15, 23, 42, 0.5),
+        0 0 0 1px rgba(30, 64, 175, 0.6);
+    }
+
+    .post-card-media {
+      position: relative;
+      overflow: hidden;
+      height: 170px;
+      background: var(--bg-color-alt);
+    }
+
+    @media (max-width: 720px) {
+      .post-card-media {
+        height: 190px;
+      }
+    }
+
+    .post-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      transition: transform 0.55s cubic-bezier(0.24, 0.76, 0.34, 1.02), filter 0.55s ease;
+    }
+
+    .post-card:hover .post-card-media img {
+      transform: scale(1.09);
+      filter: saturate(1.1);
+    }
+
+    .post-card-body {
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .post-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 2px;
+    }
+
+    .post-tag {
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .post-tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+    }
+
+    .post-tag--work {
+      background: rgba(59, 130, 246, 0.08);
+      color: #1d4ed8;
+    }
+
+    .post-tag--work .post-tag-dot {
+      background: radial-gradient(circle at 0 0, #93c5fd, #2563eb);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+    }
+
+    .post-tag--life {
+      background: rgba(34, 197, 94, 0.08);
+      color: #15803d;
+    }
+
+    .post-tag--life .post-tag-dot {
+      background: radial-gradient(circle at 0 0, #bbf7d0, #22c55e);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.2);
+    }
+
+    html[data-theme="dark"] .post-tag--work {
+      background: rgba(37, 99, 235, 0.18);
+      color: #bfdbfe;
+    }
+
+    html[data-theme="dark"] .post-tag--life {
+      background: rgba(22, 163, 74, 0.2);
+      color: #bbf7d0;
+    }
+
+    .post-date {
+      font-size: 11px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .post-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .post-summary {
+      margin: 3px 0 0;
+      font-size: 13px;
+      color: var(--text-muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .empty-state {
+      margin: 24px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Modal */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: radial-gradient(
+        circle at 10% 0%,
+        rgba(59, 130, 246, 0.18),
+        transparent 55%
+      ), radial-gradient(
+        circle at 90% 100%,
+        rgba(236, 72, 153, 0.18),
+        transparent 55%
+      ), rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition:
+        opacity 0.32s ease,
+        visibility 0.32s ease;
+    }
+
+    .modal.is-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .modal-dialog {
+      width: 100%;
+      max-width: 880px;
+      max-height: min(88vh, 880px);
+      border-radius: 30px;
+      overflow: hidden;
+      background: linear-gradient(
+        145deg,
+        rgba(248, 250, 252, 0.98),
+        rgba(229, 231, 235, 0.98)
+      );
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow:
+        0 30px 80px rgba(15, 23, 42, 0.85),
+        0 0 0 1px rgba(255, 255, 255, 0.95);
+      display: flex;
+      flex-direction: column;
+      transform: translateY(14px) scale(0.97);
+      opacity: 0;
+      transition:
+        opacity 0.32s ease,
+        transform 0.32s cubic-bezier(0.28, 0.84, 0.42, 1);
+    }
+
+    .modal.is-open .modal-dialog {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    html[data-theme="dark"] .modal-dialog {
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 1), rgba(15, 23, 42, 1));
+      border-color: rgba(148, 163, 184, 0.6);
+      box-shadow:
+        0 36px 90px rgba(0, 0, 0, 0.95),
+        0 0 0 1px rgba(148, 163, 184, 0.8);
+    }
+
+    .modal-header-shell {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .modal-cover {
+      height: 210px;
+      overflow: hidden;
+      background: #111827;
+    }
+
+    @media (max-width: 640px) {
+      .modal {
+        padding: 12px;
+      }
+
+      .modal-dialog {
+        max-height: 92vh;
+        border-radius: 24px;
+      }
+
+      .modal-cover {
+        height: 180px;
+      }
+    }
+
+    .modal-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      filter: saturate(1.05);
+    }
+
+    .modal-header-bar {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      box-shadow:
+        0 12px 30px rgba(15, 23, 42, 0.72),
+        0 0 0 0.5px rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      font-size: 11px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .modal-header-bar-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    .badge--work .badge-dot {
+      background: #60a5fa;
+    }
+
+    .badge--life .badge-dot {
+      background: #4ade80;
+    }
+
+    .modal-date {
+      color: #e5e7eb;
+      opacity: 0.9;
+    }
+
+    .modal-body-shell {
+      padding: 16px 20px 18px;
+      overflow-y: auto;
+    }
+
+    @media (max-width: 640px) {
+      .modal-body-shell {
+        padding: 14px 16px 16px;
+      }
+    }
+
+    .modal-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 6px;
+    }
+
+    .modal-close-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, rgba(243, 244, 246, 1), rgba(229, 231, 235, 1));
+      border: 1px solid rgba(209, 213, 219, 1);
+      box-shadow:
+        0 10px 25px rgba(148, 163, 184, 0.5),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.9);
+      transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        background var(--transition-med),
+        border-color var(--transition-med);
+      color: #4b5563;
+    }
+
+    html[data-theme="dark"] .modal-close-button {
+      background: radial-gradient(circle at 0 0, #1e293b, #020617);
+      border-color: rgba(55, 65, 81, 0.9);
+      color: #e5e7eb;
+      box-shadow:
+        0 14px 32px rgba(15, 23, 42, 0.95),
+        inset 0 0 0 0.5px rgba(148, 163, 184, 0.7);
+    }
+
+    .modal-close-button:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 16px 32px rgba(15, 23, 42, 0.35),
+        0 0 0 1px rgba(148, 163, 184, 0.5);
+    }
+
+    .modal-close-button:active {
+      transform: translateY(0) scale(0.96);
+      box-shadow:
+        0 8px 18px rgba(15, 23, 42, 0.6),
+        inset 0 0 0 0.5px rgba(15, 23, 42, 0.7);
+    }
+
+    .modal-close-button svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .modal-title {
+      margin: 0 0 6px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+    }
+
+    .modal-submeta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .modal-tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .modal-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.14);
+      color: var(--text-muted);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    html[data-theme="dark"] .modal-tag {
+      background: rgba(30, 64, 175, 0.45);
+      color: #e5e7eb;
+      border-color: rgba(129, 140, 248, 0.75);
+    }
+
+    .modal-content {
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .modal-content p {
+      margin: 0 0 12px;
+    }
+
+    .modal-content h3 {
+      margin: 20px 0 8px;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .modal-content ul,
+    .modal-content ol {
+      margin: 0 0 12px 20px;
+      padding: 0;
+    }
+
+    .modal-content li {
+      margin-bottom: 4px;
+    }
+
+    .modal-content code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+      font-size: 13px;
+      background: rgba(148, 163, 184, 0.18);
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    .modal-content pre {
+      margin: 12px 0;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(15, 23, 42, 0.9);
+      color: #e5e7eb;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+
+    .modal-content pre code {
+      background: transparent;
+      padding: 0;
+    }
+
+    .modal-footer-hint {
+      margin-top: 16px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    /* Footer */
+
+    .site-footer {
+      padding: 22px 0 26px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .site-footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.7),
+        rgba(243, 244, 246, 0.9)
+      );
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      box-shadow:
+        0 16px 36px rgba(148, 163, 184, 0.35),
+        0 0 0 0.5px rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    html[data-theme="dark"] .site-footer-inner {
+      background: radial-gradient(circle at 0 0, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 1));
+      border-color: rgba(30, 64, 175, 0.8);
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.9),
+        0 0 0 0.5px rgba(30, 64, 175, 0.9);
+    }
+
+    .footer-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      align-items: center;
+    }
+
+    .footer-highlight {
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    @media (max-width: 640px) {
+      .site-footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Animations */
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Misc */
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .site-title-sub {
+        display: inline-block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="site-header-shell">
+    <div class="site-header-inner">
+      <header class="site-header glass">
+        <div class="site-header-brand">
+          <div class="site-logo-mark">B</div>
+          <div>
+            <div class="site-title">My Studio</div>
+            <div class="site-title-sub">Work notes &amp; life moments</div>
+          </div>
+        </div>
+        <div class="site-header-actions">
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-label="切换深色模式">
+            <span class="theme-toggle-track">
+              <span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true"></span>
+              <span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true"></span>
+              <span class="theme-toggle-thumb"></span>
+            </span>
+          </button>
+          <a
+            class="icon-button"
+            href="https://github.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="前往 GitHub"
+          >
+            <!-- GitHub mark -->
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+              <path
+                fill-rule="evenodd"
+                d="M8 0C3.58 0 0 3.64 0 8.14c0 3.6 2.29 6.65 5.47 7.73.4.08.55-.18.55-.39 0-.19-.01-.82-.01-1.49-2.01.38-2.53-.5-2.69-.96-.09-.24-.48-.97-.82-1.17-.28-.15-.68-.52-.01-.53.63-.01 1.08.59 1.23.84.72 1.23 1.87.88 2.33.67.07-.53.28-.88.5-1.08-1.78-.21-3.64-.92-3.64-4.1 0-.91.31-1.65.82-2.23-.08-.21-.36-1.06.08-2.2 0 0 .67-.22 2.2.85.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.07 2.2-.85 2.2-.85.44 1.14.16 1.99.08 2.2.51.58.82 1.32.82 2.23 0 3.19-1.87 3.89-3.65 4.1.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.47.55.39A8.02 8.02 0 0 0 16 8.14C16 3.64 12.42 0 8 0Z"
+              ></path>
+            </svg>
+          </a>
+        </div>
+      </header>
+    </div>
+  </div>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-text">
+            <p class="hero-eyebrow">PERSONAL BLOG</p>
+            <h1 class="hero-title">记录代码之外的思考，与生活里的微光。</h1>
+            <p class="hero-subtitle">
+              这里是我关于前端工程实践、架构设计和产品体验的工作复盘，也有日常生活中的小确幸与碎片感悟。
+            </p>
+            <p class="hero-slogan">“Keep the interface clean, and the mind clearer.”</p>
+            <div class="hero-tags">
+              <span class="chip">前端工程 · UI/UX 体验</span>
+              <span class="chip">工作复盘 · 技术成长</span>
+              <span class="chip">生活记录 · 极简主义</span>
+            </div>
+          </div>
+          <div class="hero-avatar-wrapper">
+            <div class="hero-avatar-orbit">
+              <div class="hero-avatar">
+                <!-- 占位头像，可替换为 <img src="..." alt="头像" /> -->
+                <span class="hero-avatar-initials">Me</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Posts -->
+    <section class="posts-section">
+      <div class="container">
+        <div class="posts-header">
+          <div>
+            <h2 class="posts-title">最近的记录</h2>
+            <p class="posts-subtitle">在迭代产品的间隙，给自己留一点复盘与回望的时间。</p>
+          </div>
+          <div
+            class="filters"
+            role="tablist"
+            aria-label="文章分类"
+          >
+            <button
+              class="filter-tab is-active"
+              type="button"
+              data-filter="all"
+              role="tab"
+              aria-selected="true"
+            >
+              全部
+            </button>
+            <button
+              class="filter-tab"
+              type="button"
+              data-filter="work"
+              role="tab"
+              aria-selected="false"
+            >
+              工作思考
+            </button>
+            <button
+              class="filter-tab"
+              type="button"
+              data-filter="life"
+              role="tab"
+              aria-selected="false"
+            >
+              生活记录
+            </button>
+          </div>
+        </div>
+        <div class="post-grid" data-post-list>
+          <!-- JS 渲染文章卡片 -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal -->
+  <div
+    class="modal"
+    id="post-modal"
+    aria-hidden="true"
+    aria-label="文章详情"
+  >
+    <div
+      class="modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div class="modal-header-shell">
+        <div class="modal-cover">
+          <img id="modal-cover" src="" alt="" />
+        </div>
+        <div class="modal-header-bar">
+          <div class="modal-header-bar-meta">
+            <span class="badge" id="modal-category-badge">
+              <span class="badge-dot"></span>
+              <span id="modal-category-label">分类</span>
+            </span>
+            <time class="modal-date" id="modal-date" datetime="">日期</time>
+          </div>
+          <div>阅读模式</div>
+        </div>
+      </div>
+      <div class="modal-body-shell">
+        <div class="modal-toolbar">
+          <button
+            class="modal-close-button"
+            type="button"
+            id="modal-close"
+            aria-label="关闭文章"
+          >
+            <svg viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.3"
+                stroke-linecap="round"
+                d="M4 4l8 8m0-8L4 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <h2 class="modal-title" id="modal-title">文章标题</h2>
+        <p class="modal-submeta" id="modal-submeta">文章摘要</p>
+        <div class="modal-tag-list" id="modal-tags"></div>
+        <article class="modal-content" id="modal-content">
+          <!-- JS 填充全文内容 -->
+        </article>
+        <p class="modal-footer-hint">提示：按 Esc 键或点击空白区域即可关闭阅读。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer-inner">
+        <div class="footer-meta">
+          <span>© <span id="footer-year"></span> Personal Notes.</span>
+          <span>All rights reserved.</span>
+        </div>
+        <div class="footer-meta">
+          <span>Designed by <span class="footer-highlight">AI</span>, Curated by <span class="footer-highlight">Your Name</span></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---------------------------------------------
+    // 文章数据：只需在这里增删修改即可
+    // ---------------------------------------------
+    const blogPosts = [
+      {
+        id: "cloudflare-static-pitfalls",
+        title: "Cloudflare 部署静态网站踩过的那些坑",
+        date: "2024-06-18",
+        category: "Work",
+        tags: ["Cloudflare", "GitHub Pages", "前端部署", "DNS", "缓存"],
+        summary:
+          "从 GitHub Pages 到 Cloudflare Pages，再到自定义域名和缓存策略，记录一次看似简单却一路踩坑的静态网站部署过程。",
+        coverImage:
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+        content: `
+          <p>
+            本来只是想把一个静态博客迁移到 Cloudflare Pages，顺便接上自定义域名，结果从构建失败到 DNS 生效延迟，再到缓存策略“打架”，一路踩坑，一路掉发。
+            这篇算是一次比较完整的部署复盘，希望下次再搭静态站的时候，可以少走一点弯路。
+          </p>
+          <h3>1. 构建命令与输出目录的误解</h3>
+          <p>
+            之前在 GitHub Pages 上，整个项目就是纯静态 HTML，没有打包流程，
+            所以迁移 Cloudflare Pages 时，我下意识地把构建命令设成了 <code>npm run build</code>，输出目录写成了 <code>dist</code> —— 结果自然是持续构建失败。
+          </p>
+          <ul>
+            <li>如果只是纯静态文件（比如你现在看的这个单文件博客），构建命令可以直接留空。</li>
+            <li>输出目录要么是构建产物目录，要么就是仓库根目录，比如 <code>/</code> 或 <code>public</code>。</li>
+          </ul>
+          <p>
+            建议：先在本地跑一遍完整的构建，确认产物目录结构，再把 Cloudflare 上的配置与之对齐，
+            不要想当然地用脚手架默认值。
+          </p>
+          <h3>2. 自定义域名 &amp; DNS 的时间差</h3>
+          <p>
+            另一个浪费时间的点是：Cloudflare 接管域名后，<strong>DNS 生效</strong> 和 <strong>HTTPS 证书签发</strong> 都需要一点时间。
+            我一开始在浏览器里访问，总是提示证书问题或解析失败，就以为哪里配置错了。
+          </p>
+          <ul>
+            <li>更新 NS 记录后，通常需要数分钟到数十分钟不等才能完全生效。</li>
+            <li>启用「完全」或「完全（严格）」 HTTPS 模式时，证书签发也需要时间。</li>
+            <li>期间可以通过 <code>nslookup</code> 或 <code>dig</code> 检查解析是否已经指向 Cloudflare。</li>
+          </ul>
+          <p>
+            心态上要接受一个事实：有时候不是你配错了，而是互联网真的需要一点时间来「同步」。
+          </p>
+          <h3>3. 缓存策略：快与准的平衡</h3>
+          <p>
+            把静态站交给 Cloudflare 之后，会很想把缓存调得「很 aggressive」：
+            比如配置较长的 <code>Cache-Control</code>，再加一个「Cache Everything」的规则，
+            看似访问会飞快，结果更新内容时就开始怀疑人生——页面怎么刷新都不变。
+          </p>
+          <p>实践下来有几个经验：</p>
+          <ul>
+            <li>HTML 的缓存时间不要太长，哪怕是静态站，内容也会改。</li>
+            <li>静态资源（JS/CSS/图片）可以走强缓存，但要结合文件名哈希。</li>
+            <li>善用 Cloudflare 的「Purge Cache」功能，更新后先定向清掉对应 URL。</li>
+            <li>开发调试期可以临时关掉浏览器缓存（DevTools 里），避免误判。</li>
+          </ul>
+          <p>
+            我现在的策略是：HTML 使用相对保守的缓存配置（例如几分钟到一小时），
+            具体的静态资源交给打包工具生成带哈希的文件名，再配合 Cloudflare 的长期缓存。
+          </p>
+          <h3>4. 自定义 404 与 SPA 路由</h3>
+          <p>
+            如果你的前端是单页应用（SPA），前端路由和 Cloudflare 的静态路由会产生一些冲突：
+            刷新非根路径时容易直接 404。
+          </p>
+          <p>
+            解决方式通常有两种：
+          </p>
+          <ul>
+            <li>在构建产物里加一份自定义 <code>404.html</code>，把它的内容和 <code>index.html</code> 保持一致。</li>
+            <li>在 Cloudflare Pages 里加一条「重写」规则，把匹配不到的路径都重写到 <code>/index.html</code>。</li>
+          </ul>
+          <p>
+            对于个人博客这种主要是内容阅读的场景，我更偏向前者：每个真正不存在的路径返回一个友好的 404 页面，
+            而不是全部兜底到首页，这样体验会更干净。
+          </p>
+          <h3>5. 小结：静态不代表简单</h3>
+          <p>
+            静态网站的部署听上去很简单：就是把几份文件扔到 CDN 上。但真要做得「稳」又「优雅」，其实有不少细节值得打磨：
+          </p>
+          <ul>
+            <li>构建产物目录要清晰，配置不要想当然。</li>
+            <li>DNS 与 HTTPS 证书有天然的「时间差」，别太快下结论。</li>
+            <li>缓存策略要考虑更新成本，别为了快牺牲掉可控性。</li>
+            <li>前端路由要和静态托管平台的规则明确「分工」。</li>
+          </ul>
+          <p>
+            这次迁移之后，我把整个部署流程写成了一个 checklist，
+            下一次上线静态项目的时候，就可以像跑流水线一样安心，脑子更多地留给产品本身。
+          </p>
+        `
+      },
+      {
+        id: "mountain-camping-weekend",
+        title: "周末山里露营：离开屏幕 48 小时的体验",
+        date: "2024-05-05",
+        category: "Life",
+        tags: ["露营", "户外", "生活记录", "减压"],
+        summary:
+          "关掉通知、离开键盘，把时间还给篝火、星空和虫鸣。一次简单的山里露营，让“在线”和“离线”的边界变得清晰了一点。",
+        coverImage:
+          "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
+        content: `
+          <p>
+            很久没有体验那种「手机信号只剩一格」的日子了。这个周末和几位朋友临时起意，开车两个多小时去了城外的山里露营，
+            简单的营地、普通的装备，却意外地收获了一次很完整的「抽离感」。
+          </p>
+          <h3>1. 抵达：从车水马龙到虫鸣鸟叫</h3>
+          <p>
+            下高速之后，很快就进入了只有一条主路的小镇。导航上的蓝线越来越细，手机的 4G 信号也开始不稳定，
+            聊天群里还在激烈刷屏的消息，慢慢变成了灰色的「发送中」。
+          </p>
+          <p>
+            到营地的时候，太阳刚好开始往山后面落。山风还带着一点凉意，空气里有草地和泥土的味道。
+            抬头是完全无遮拦的天空，远处甚至还能看到一点尚未褪去的云海。
+          </p>
+          <h3>2. 搭帐篷：慢下来，用手解决问题</h3>
+          <p>
+            在办公室里，我们习惯了用命令行、脚本和自动化解决一切，
+            可是在营地，搭一个帐篷就是最直接的「问题」：
+            插地钉、牵拉风绳、调整角度，中间还要和风斗智斗勇。
+          </p>
+          <p>
+            这个过程很好玩的一点是：你会很自然地进入一种「单线程」状态。
+            没有消息提示，没有任务切换，只有面前这几根杆子、几块布和地上的石头。
+          </p>
+          <h3>3. 夜幕：篝火、星空和没有 Wi-Fi 的聊天</h3>
+          <p>
+            夜里风有点大，我们还是点起了篝火。火光把每个人的脸都照得很温暖，
+            远处是完全安静的山谷，偶尔能听到不知道是什么鸟类的叫声。
+          </p>
+          <p>
+            也许是因为没有 Wi-Fi，没有人低头刷手机，大家自然而然地开始聊起一些平时很少展开的话题：
+          </p>
+          <ul>
+            <li>最近一次真正感到开心的时刻是什么？</li>
+            <li>如果可以不上班三个月，你会怎么安排时间？</li>
+            <li>有没有一个「一直想做但总在拖延」的计划？</li>
+          </ul>
+          <p>
+            这些问题听起来有点「鸡汤」，但在星空和篝火的背景下，突然就变得很真诚。
+          </p>
+          <h3>4. 睡醒：被阳光叫醒的感觉</h3>
+          <p>
+            第二天早上大概六点多，帐篷就被阳光慢慢烤热了，睁眼看到的第一画面是布顶透进来的金色光斑，
+            还有帐篷外隐约传来的脚步声和说话声。
+          </p>
+          <p>
+            走出帐篷的时候，有一瞬间是恍惚的——空气有点冷，远处的山顶还在云层里，
+            鸟叫声非常清晰，整个人是「从梦境走进了另一种梦境」的感觉。
+          </p>
+          <h3>5. 回程：重新回到被通知填满的世界</h3>
+          <p>
+            回程的路上，手机信号一点点恢复，消息提示开始像瀑布一样涌上来。
+            但这一次我没有立刻去翻全部的未读，只是简单看了一眼有没有紧急的，
+            剩下的，留到真正坐在桌前再处理。
+          </p>
+          <p>
+            这 48 小时最直接的收获大概有两个：
+          </p>
+          <ul>
+            <li>原来「离线」并不会导致世界崩塌，很多事情其实可以晚几个小时再回复。</li>
+            <li>当注意力从屏幕上移开，很多看似复杂的问题，会在山风和星空的陪伴下悄悄变得清晰。</li>
+          </ul>
+          <p>
+            以后不一定每个周末都去露营，但会刻意给自己留出一些不用面对屏幕的时间，
+            哪怕只是去楼下的公园走一圈，也是一种温和的「重启」。
+          </p>
+        `
+      },
+      {
+        id: "minimal-life-notes",
+        title: "如何保持极简生活：不只是“东西少一点”",
+        date: "2024-03-12",
+        category: "Life",
+        tags: ["极简主义", "生活方式", "整理", "专注"],
+        summary:
+          "极简生活并不是把所有东西都扔掉，而是更有意识地选择：什么值得被保留，什么可以被放下。",
+        coverImage:
+          "https://images.unsplash.com/photo-1523755231516-e43fd2e8dca5?auto=format&fit=crop&w=1400&q=80",
+        content: `
+          <p>
+            很多人提到「极简主义」，第一反应都是极度空旷的房间、纯白的墙和一张桌子。
+            但真的开始实践之后才发现，极简生活的核心，不是「东西越少越好」，而是：
+            <strong>用有限的空间，盛放真正重要的东西</strong>。
+          </p>
+          <h3>1. 从物理空间开始，但别停留在「扔东西」上</h3>
+          <p>
+            我第一次大规模整理，是从书桌和衣柜开始的。那几天扔掉了很多「总觉得以后会用到」的东西：
+            过期的笔记本、早就不用的电子产品包装盒、已经忘记什么时候买的衣服。
+          </p>
+          <p>
+            但真正有成就感的瞬间不是「扔了多少」，而是：
+            当我坐回桌前的时候，桌面上只剩下电脑、一盏台灯和一个笔筒——
+            那种清爽感让人很自然地想开始做点事情。
+          </p>
+          <p>
+            所以我给自己的一个原则是：
+          </p>
+          <ul>
+            <li>不追求「空无一物」，而是追求「一眼望过去，每一件东西都有存在的理由」。</li>
+            <li>定期整理，而不是一时冲动的大扫除。</li>
+          </ul>
+          <h3>2. 数字世界的极简：减少信息噪音</h3>
+          <p>
+            比起物理空间，数字世界其实更容易「堆积」：未读邮件、订阅号、群聊、收藏夹……
+            它们不会占空间，但会悄悄占据注意力。
+          </p>
+          <p>我做过几件小事，效果出乎意料地好：</p>
+          <ul>
+            <li>关掉几乎所有 App 的非必要推送，只保留电话、日历和极少数即时通讯。</li>
+            <li>清理桌面图标，只在 Dock / 任务栏常驻少数高频工具。</li>
+            <li>给浏览器装一个「新标签页空白」扩展，新开页面不会被新闻或快捷方式吸走注意力。</li>
+          </ul>
+          <p>
+            当数字世界不再那么「吵」的时候，你会发现，原来自己并没有那么「离不开手机」。
+          </p>
+          <h3>3. 决策的极简：给自己设定默认选项</h3>
+          <p>
+            极简生活的另一个收获，是减少不必要的决策。比如：</p>
+          <ul>
+            <li>工作日的早餐固定成一两种搭配，不再每天早上纠结吃什么。</li>
+            <li>衣柜里只保留少量「怎么搭都还可以」的单品，出门前不用费力打扮。</li>
+            <li>每天固定一个「深度工作时段」，默认这个时间段不安排会议。</li>
+          </ul>
+          <p>
+            当这些小决策被「自动化」之后，大脑可以把能量留给真正需要思考的事情。
+          </p>
+          <h3>4. 关系的极简：更真诚地相处</h3>
+          <p>
+            极简不只是对物，对人也是。这里的「极简」并不是减少朋友，
+            而是更清楚地知道：哪些关系需要经营，哪些可以轻松一点。
+          </p>
+          <p>
+            我开始更少出现在大型聚会里，但会更有耐心地和少数亲近的朋友长聊；
+            在社交媒体上减少无效互动，但认真回复每一条真正走心的私信。
+          </p>
+          <h3>5. 允许阶段性「不极简」</h3>
+          <p>
+            最后一个重要的提醒：<strong>极简是一种方向，不是一个一成不变的状态</strong>。
+            有些阶段你需要更多的工具、更多的书、更多的尝试，那就允许自己「堆积」一阵子。
+          </p>
+          <p>
+            真正重要的是：当你觉得被物品、信息或安排压得有点喘不过气的时候，
+            你知道可以随时按下「整理」键，把注意力重新拉回到那些对你真正重要的事情上。
+          </p>
+          <p>
+            极简生活不是目的，而是一种持续校准的过程。
+            它不断提醒我：<strong>哪些东西值得被保留，哪些可以被温柔地放下</strong>。
+          </p>
+        `
+      }
+    ];
+
+    // ---------------------------------------------
+    // 工具函数
+    // ---------------------------------------------
+    const categoryLabelMap = {
+      Work: "工作思考",
+      Life: "生活记录"
+    };
+
+    function formatDate(dateStr) {
+      try {
+        const date = new Date(dateStr);
+        if (Number.isNaN(date.getTime())) return dateStr;
+        return date.toLocaleDateString("zh-CN", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        });
+      } catch {
+        return dateStr;
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str && str !== 0) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // ---------------------------------------------
+    // 主题切换
+    // ---------------------------------------------
+    function getSystemTheme() {
+      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return "dark";
+      }
+      return "light";
+    }
+
+    function applyTheme(theme) {
+      const root = document.documentElement;
+      root.setAttribute("data-theme", theme === "dark" ? "dark" : "light");
+      const toggle = document.getElementById("theme-toggle");
+      if (toggle) {
+        toggle.setAttribute(
+          "aria-label",
+          theme === "dark" ? "切换为浅色模式" : "切换为深色模式"
+        );
+      }
+    }
+
+    function initTheme() {
+      const stored = window.localStorage ? localStorage.getItem("theme") : null;
+      const initialTheme = stored || getSystemTheme();
+      applyTheme(initialTheme);
+
+      const mediaQuery = window.matchMedia
+        ? window.matchMedia("(prefers-color-scheme: dark)")
+        : null;
+
+      if (mediaQuery && mediaQuery.addEventListener && !stored) {
+        mediaQuery.addEventListener("change", (e) => {
+          if (!localStorage.getItem("theme")) {
+            applyTheme(e.matches ? "dark" : "light");
+          }
+        });
+      } else if (mediaQuery && mediaQuery.addListener && !stored) {
+        mediaQuery.addListener((e) => {
+          if (!localStorage.getItem("theme")) {
+            applyTheme(e.matches ? "dark" : "light");
+          }
+        });
+      }
+
+      const toggle = document.getElementById("theme-toggle");
+      if (toggle) {
+        toggle.addEventListener("click", () => {
+          const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+          const nextTheme = currentTheme === "light" ? "dark" : "light";
+          applyTheme(nextTheme);
+          try {
+            localStorage.setItem("theme", nextTheme);
+          } catch (e) {
+            // ignore
+          }
+        });
+      }
+    }
+
+    // ---------------------------------------------
+    // 文章渲染 & 交互
+    // ---------------------------------------------
+    let currentFilter = "all";
+    const postMap = new Map(blogPosts.map((p) => [p.id, p]));
+
+    function getFilteredPosts() {
+      let list = blogPosts.slice().sort((a, b) => {
+        const da = new Date(a.date);
+        const db = new Date(b.date);
+        return db - da;
+      });
+
+      if (currentFilter === "work") {
+        list = list.filter((p) => p.category === "Work");
+      } else if (currentFilter === "life") {
+        list = list.filter((p) => p.category === "Life");
+      }
+      return list;
+    }
+
+    function renderPosts() {
+      const container = document.querySelector("[data-post-list]");
+      if (!container) return;
+
+      const posts = getFilteredPosts();
+      if (!posts.length) {
+        container.innerHTML = '<p class="empty-state">还没有这类文章，敬请期待。</p>';
+        return;
+      }
+
+      const html = posts
+        .map((post) => {
+          const categoryLabel = categoryLabelMap[post.category] || post.category;
+          const categoryClass =
+            post.category === "Work"
+              ? "post-tag--work"
+              : post.category === "Life"
+              ? "post-tag--life"
+              : "";
+          const formattedDate = formatDate(post.date);
+
+          return `
+            <article
+              class="post-card"
+              data-id="${post.id}"
+              role="button"
+              tabindex="0"
+              aria-label="阅读：${escapeHtml(post.title)}"
+            >
+              <div class="post-card-media">
+                <img
+                  src="${post.coverImage}"
+                  loading="lazy"
+                  alt="${escapeHtml(post.title)} 的封面图"
+                />
+              </div>
+              <div class="post-card-body">
+                <div class="post-card-meta">
+                  <span class="post-tag ${categoryClass}">
+                    <span class="post-tag-dot"></span>
+                    <span>${escapeHtml(categoryLabel)}</span>
+                  </span>
+                  <time class="post-date" datetime="${escapeHtml(post.date)}">
+                    ${escapeHtml(formattedDate)}
+                  </time>
+                </div>
+                <h3 class="post-title">${escapeHtml(post.title)}</h3>
+                <p class="post-summary">${escapeHtml(post.summary)}</p>
+              </div>
+            </article>
+          `;
+        })
+        .join("");
+
+      container.innerHTML = html;
+    }
+
+    function initTabs() {
+      const tabs = document.querySelectorAll(".filter-tab");
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const filter = tab.getAttribute("data-filter");
+          if (!filter || filter === currentFilter) return;
+
+          currentFilter = filter;
+          tabs.forEach((t) => {
+            const isActive = t === tab;
+            t.classList.toggle("is-active", isActive);
+            t.setAttribute("aria-selected", isActive ? "true" : "false");
+          });
+
+          renderPosts();
+        });
+      });
+    }
+
+    // ---------------------------------------------
+    // Modal 逻辑
+    // ---------------------------------------------
+    let modalEl;
+    let modalTitleEl;
+    let modalSubmetaEl;
+    let modalTagsEl;
+    let modalContentEl;
+    let modalCoverImgEl;
+    let modalDateEl;
+    let modalCategoryLabelEl;
+    let modalCategoryBadgeEl;
+    let isModalOpen = false;
+
+    function openPostById(id) {
+      const post = postMap.get(id);
+      if (!post) return;
+      openModal(post);
+    }
+
+    function openModal(post) {
+      if (!modalEl) return;
+      isModalOpen = true;
+
+      modalTitleEl.textContent = post.title;
+      modalSubmetaEl.textContent = post.summary || "";
+
+      const formattedDate = formatDate(post.date);
+      modalDateEl.textContent = formattedDate;
+      modalDateEl.setAttribute("datetime", post.date);
+
+      const categoryLabel = categoryLabelMap[post.category] || post.category;
+      modalCategoryLabelEl.textContent = categoryLabel;
+      modalCategoryBadgeEl.classList.toggle("badge--work", post.category === "Work");
+      modalCategoryBadgeEl.classList.toggle("badge--life", post.category === "Life");
+
+      // Tags
+      if (post.tags && post.tags.length) {
+        modalTagsEl.innerHTML = post.tags
+          .map(
+            (tag) => `<span class="modal-tag">${escapeHtml(tag)}</span>`
+          )
+          .join("");
+      } else {
+        modalTagsEl.innerHTML = "";
+      }
+
+      // Content (作为 HTML 插入)
+      modalContentEl.innerHTML = post.content;
+
+      // Cover image
+      if (post.coverImage) {
+        modalCoverImgEl.src = post.coverImage;
+        modalCoverImgEl.alt = post.title + " 的封面图";
+      } else {
+        modalCoverImgEl.src = "";
+        modalCoverImgEl.alt = "";
+      }
+
+      modalEl.classList.add("is-open");
+      modalEl.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+
+      // 聚焦关闭按钮，方便键盘操作
+      const closeBtn = document.getElementById("modal-close");
+      if (closeBtn) {
+        closeBtn.focus();
+      }
+    }
+
+    function closeModal() {
+      if (!modalEl || !isModalOpen) return;
+      isModalOpen = false;
+      modalEl.classList.remove("is-open");
+      modalEl.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+    }
+
+    function initModal() {
+      modalEl = document.getElementById("post-modal");
+      if (!modalEl) return;
+
+      modalTitleEl = document.getElementById("modal-title");
+      modalSubmetaEl = document.getElementById("modal-submeta");
+      modalTagsEl = document.getElementById("modal-tags");
+      modalContentEl = document.getElementById("modal-content");
+      modalCoverImgEl = document.getElementById("modal-cover");
+      modalDateEl = document.getElementById("modal-date");
+      modalCategoryLabelEl = document.getElementById("modal-category-label");
+      modalCategoryBadgeEl = document.getElementById("modal-category-badge");
+
+      const closeBtn = document.getElementById("modal-close");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", () => closeModal());
+      }
+
+      modalEl.addEventListener("click", (event) => {
+        if (event.target === modalEl) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && isModalOpen) {
+          closeModal();
+        }
+      });
+    }
+
+    function initPostInteractions() {
+      const container = document.querySelector("[data-post-list]");
+      if (!container) return;
+
+      container.addEventListener("click", (event) => {
+        const card = event.target.closest(".post-card");
+        if (!card) return;
+        const id = card.getAttribute("data-id");
+        if (id) {
+          openPostById(id);
+        }
+      });
+
+      container.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        const card = event.target.closest(".post-card");
+        if (!card) return;
+        event.preventDefault();
+        const id = card.getAttribute("data-id");
+        if (id) {
+          openPostById(id);
+        }
+      });
+    }
+
+    // ---------------------------------------------
+    // 初始化
+    // ---------------------------------------------
+    document.addEventListener("DOMContentLoaded", () => {
+      // Footer 年份
+      const yearEl = document.getElementById("footer-year");
+      if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
+      }
+
+      initTheme();
+      initTabs();
+      renderPosts();
+      initModal();
+      initPostInteractions();
+    });
+  </script>
+</body>
+</html>
